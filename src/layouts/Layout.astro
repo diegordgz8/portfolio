@@ -34,6 +34,14 @@ const ogImage = new URL(image || '/og-image.webp', Astro.site).href;
         <meta name="twitter:image" content={ogImage} />
         <ClientRouter />
 
+        <!-- Google Tag Manager -->
+        <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-MZZBZ8WR');</script>
+        <!-- End Google Tag Manager -->
+
         <script is:inline>
             const theme = (() => {
                 if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
@@ -52,9 +60,27 @@ const ogImage = new URL(image || '/og-image.webp', Astro.site).href;
                 const isDark = document.documentElement.classList.contains('dark');
                 e.newDocument.documentElement.classList.toggle('dark', isDark);
             });
+
+            /* Fires on first load and on every View Transitions navigation.
+               In GTM this feeds the "pageview" Custom Event trigger, and the
+               Google tag has send_page_view disabled so nothing is counted twice. */
+            document.addEventListener('astro:page-load', () => {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    event: 'pageview',
+                    page_location: location.href,
+                    page_path: location.pathname + location.search,
+                    page_title: document.title,
+                });
+            });
         </script>
     </head>
     <body class="flex min-h-screen flex-col">
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZZBZ8WR"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+
         <Header />
         <MobileMenu />
 
