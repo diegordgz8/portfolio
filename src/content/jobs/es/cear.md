@@ -11,7 +11,7 @@ stack:
     - MySQL
     - Alpine.js
     - Bootstrap
-cover: ./cear.webp
+cover: ../cear.webp
 ---
 
 Colaboré en el desarrollo integral del sistema de arbitraje SISTELAR, trabajando activamente con el stack de PHP, Laravel y MySQL. Tras demostrar una excepcional capacidad de resolución técnica, fui promovido a Líder de Funcionalidad (Feature Lead). En este rol, dirigí exitosamente el desarrollo de un módulo central del sistema, coordinando a un desarrollador junior para garantizar el cumplimiento de los tiempos de entrega y los estándares de calidad.

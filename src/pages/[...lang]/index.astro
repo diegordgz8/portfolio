@@ -1,17 +1,28 @@
 ---
-import { getCollection } from 'astro:content';
-import Layout from '../layouts/Layout.astro';
+import type { GetStaticPaths } from 'astro';
+import Layout from '../../layouts/Layout.astro';
 import Image from 'astro/components/Image.astro';
-import Button from '../components/Button.astro';
+import Button from '../../components/Button.astro';
 import { Icon } from 'astro-icon/components';
 
-import profilePicture from '../assets/img/profile-pic.webp';
-import contactCover from '../assets/img/developing.jpg';
-import JobCard from '../components/JobCard.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import SkillsBento from '../components/SkillsBento.astro';
+import profilePicture from '../../assets/img/profile-pic.webp';
+import contactCover from '../../assets/img/developing.jpg';
+import JobCard from '../../components/JobCard.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import SkillsBento from '../../components/SkillsBento.astro';
+import { languages, type Lang } from '../../i18n/ui';
+import { getLocalizedCollection, langParam, useTranslations } from '../../i18n/utils';
 
-const jobs = await getCollection('jobs');
+export const getStaticPaths = (() =>
+    (Object.keys(languages) as Lang[]).map((lang) => ({
+        params: { lang: langParam(lang) },
+        props: { lang },
+    }))) satisfies GetStaticPaths;
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const jobs = (await getLocalizedCollection('jobs', lang)).map(({ entry }) => entry);
 jobs.sort((a, b) => {
     const dateA = new Date(a.data.dateFrom).getTime();
     const dateB = new Date(b.data.dateFrom).getTime();
@@ -20,15 +31,12 @@ jobs.sort((a, b) => {
 });
 
 const projectOrder = ['sgcweb', 'gerardi', 'portfolio', 'bonsai'];
-const projects = (await getCollection('projects')).sort(
+const projects = (await getLocalizedCollection('projects', lang)).sort(
     (a, b) => projectOrder.indexOf(a.slug) - projectOrder.indexOf(b.slug),
 );
 ---
 
-<Layout
-    title="Diego A. Rodríguez - Portafolio"
-    description="Portafolio de Diego Rodríguez, desarrollador web especializado en Laravel. Explora mis proyectos y experiencia laboral."
->
+<Layout title={t('meta.title')} description={t('meta.description')}>
     <section id="hero">
         <div
             class="relative container flex items-center justify-center px-8 sm:px-8 sm:py-28 md:px-12 md:pt-30 lg:h-screen lg:justify-start lg:py-0"
@@ -50,7 +58,7 @@ const projects = (await getCollection('projects')).sort(
                     <Image
                         class={'relative w-full rounded-full shadow hover:scale-110 transition duration-300 ring-4 ring-offset-16 ring-brand/10 hover:ring-brand/50 dark:ring-brand-dark/10 dark:hover:ring-brand-dark/60 ring-offset-surface-500 dark:ring-offset-surface-dark-500 ease-in-out'}
                         src={profilePicture}
-                        alt="Diego Rodríguez's portrait"
+                        alt={t('hero.portraitAlt')}
                     />
                 </div>
 
@@ -61,32 +69,24 @@ const projects = (await getCollection('projects')).sort(
                     <p
                         class="text-primary-500 text-center text-xl font-bold sm:text-3xl lg:text-left lg:text-4xl xl:text-5xl dark:text-teal-500"
                     >
-                        Transformo ideas complejas en soluciones web de alto rendimiento
+                        {t('hero.tagline')}
                     </p>
                     <div
                         class="text-muted-500 dark:text-surface-600 flex flex-col gap-2 lg:text-xl"
                     >
-                        <p>
-                            Soy Diego, Technical Lead e Ingeniero especializado en PHP y Laravel. Mi
-                            enfoque combina la arquitectura técnica con el liderazgo de equipos para
-                            entregar software que optimiza procesos y escala con tu negocio.
-                        </p>
+                        <p>{t('hero.intro')}</p>
                     </div>
                     <div
                         class="mt-4 flex h-full w-full flex-col items-stretch justify-between gap-4 text-xl sm:w-auto sm:flex-row sm:items-center"
                     >
                         <Button href="#portfolio" class="btn-solid">
                             <Icon name="mdi:briefcase" class="h-6 w-6" />
-                            Ver Proyectos
+                            {t('hero.viewProjects')}
                         </Button>
 
-                        <Button
-                            href="/Desarrollador Web CV [es].pdf"
-                            target="_blank"
-                            class="btn-outline"
-                        >
+                        <Button href={t('hero.cvFile')} target="_blank" class="btn-outline">
                             <Icon name="mdi:download" class="h-6 w-6" />
-                            Descargar CV
+                            {t('hero.downloadCv')}
                         </Button>
                     </div>
                     <div class="mt-4 flex h-full items-center justify-between gap-4 text-xl">
@@ -104,7 +104,7 @@ const projects = (await getCollection('projects')).sort(
 
     <section id="jobs">
         <div class="container py-12 sm:px-4 md:px-8 lg:py-16 xl:px-12">
-            <h2 class="section-title">Experiencia laboral</h2>
+            <h2 class="section-title">{t('section.jobs')}</h2>
             <div class="grid gap-x-8 gap-y-12 xl:grid-cols-1">
                 {jobs.map((job) => <JobCard {...job.data} />)}
             </div>
@@ -114,28 +114,31 @@ const projects = (await getCollection('projects')).sort(
     <section id="portfolio">
         <!-- Works (incluir los proyectos que he hecho. Recomendable copiar una web existente. No colocar más de 10 trabajos y escoger los mejores y más llamativos) -->
         <div class="container py-12 sm:px-4 md:px-8 lg:py-16 xl:px-12">
-            <h2 class="section-title">Proyectos</h2>
+            <h2 class="section-title">{t('section.portfolio')}</h2>
             <div class="grid gap-x-8 gap-y-12 xl:grid-cols-2">
-                {projects.map((project) => <ProjectCard slug={project.slug} {...project.data} />)}
+                {
+                    projects.map(({ entry, slug }) => (
+                        <ProjectCard slug={slug} lang={lang} {...entry.data} />
+                    ))
+                }
             </div>
         </div>
     </section>
 
     <section id="skills">
         <div class="container py-12 sm:px-4 md:px-8 lg:py-16 xl:px-12">
-            <h2 class="section-title">Habilidades</h2>
-            <SkillsBento />
+            <h2 class="section-title">{t('section.skills')}</h2>
+            <SkillsBento lang={lang} />
         </div>
     </section>
 
     <section id="contact">
         <div class="container py-12 sm:px-4 md:px-8 lg:py-16 xl:px-12">
-            <h2 class="section-title">Contacto</h2>
+            <h2 class="section-title">{t('section.contact')}</h2>
             <div class="grid gap-8 md:grid-cols-2">
                 <div class="flex flex-col gap-6">
                     <p class="text-muted-500 dark:text-surface-600 text-lg">
-                        ¿Tienes un proyecto en mente? Escríbeme y hablemos sobre cómo puedo
-                        ayudarte.
+                        {t('contact.pitch')}
                     </p>
                     <div class="flex flex-col gap-4">
                         <a
@@ -168,7 +171,7 @@ const projects = (await getCollection('projects')).sort(
                     <Image
                         class="aspect-[2.4/1] w-full rounded-lg object-cover"
                         src={contactCover}
-                        alt="Developing"
+                        alt={t('contact.imageAlt')}
                     />
                 </div>
             </div>

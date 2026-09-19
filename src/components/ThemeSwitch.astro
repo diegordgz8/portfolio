@@ -1,11 +1,14 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const t = useTranslations(getLangFromUrl(Astro.url));
 ---
 
 <button
     type="button"
     role="switch"
-    aria-label="Cambiar tema"
+    aria-label={t('nav.toggleTheme')}
     class="dark-toggle bg-surface-300 relative inline-flex h-10 w-18 cursor-pointer items-center rounded-full transition-colors duration-300 dark:bg-teal-700"
 >
     <span

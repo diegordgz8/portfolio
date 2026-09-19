@@ -1,11 +1,14 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const t = useTranslations(getLangFromUrl(Astro.url));
 ---
 
 <button
     id="mobile-menu-toggle"
     type="button"
-    aria-label="Abrir menú"
+    aria-label={t('nav.openMenu')}
     class="text-surface-500 relative z-60 cursor-pointer lg:hidden"
 >
     <Icon name="mdi:menu" class="h-8 w-8" />

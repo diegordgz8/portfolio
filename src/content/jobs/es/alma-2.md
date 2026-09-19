@@ -15,7 +15,7 @@ stack:
     - Figma
     - Trello
     - Kanban
-cover: ./almav.png
+cover: ../almav.png
 ---
 
 Como Technical Lead, superviso el ciclo completo de vida del software, liderando un equipo de 3 desarrolladores para asegurar la excelencia en cada entrega. Mi rol combina la toma de decisiones arquitectónicas con el desarrollo activo, enfocándome en la creación de herramientas de automatización que impactan directamente en la rentabilidad del negocio.

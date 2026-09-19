@@ -1,5 +1,8 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const t = useTranslations(getLangFromUrl(Astro.url));
 ---
 
 <div
@@ -9,7 +12,7 @@ import { Icon } from 'astro-icon/components';
     <button
         id="lb-close"
         type="button"
-        aria-label="Cerrar"
+        aria-label={t('lightbox.close')}
         class="absolute top-4 right-4 cursor-pointer text-white/70 transition-colors hover:text-white"
     >
         <Icon name="mdi:close" class="h-8 w-8" />
@@ -18,7 +21,7 @@ import { Icon } from 'astro-icon/components';
     <button
         id="lb-prev"
         type="button"
-        aria-label="Anterior"
+        aria-label={t('lightbox.prev')}
         class="absolute left-4 cursor-pointer text-white/70 transition-colors hover:text-white"
     >
         <Icon name="mdi:chevron-left" class="h-10 w-10" />
@@ -29,7 +32,7 @@ import { Icon } from 'astro-icon/components';
     <button
         id="lb-next"
         type="button"
-        aria-label="Siguiente"
+        aria-label={t('lightbox.next')}
         class="absolute right-4 cursor-pointer text-white/70 transition-colors hover:text-white"
     >
         <Icon name="mdi:chevron-right" class="h-10 w-10" />

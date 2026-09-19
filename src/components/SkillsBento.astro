@@ -1,5 +1,14 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { skillsKnowledge, type Lang } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
 
 interface Skill {
     name: string;
@@ -38,7 +47,7 @@ const techs: Skill[] = [
         span: 'col-span-2 sm:col-span-1',
     },
     {
-        name: 'Gestión de Proyectos',
+        name: t('skills.projectManagement'),
         icon: 'mdi:clipboard-list',
         color: 'bg-green-900',
         span: 'col-span-2 row-span-2',
@@ -47,19 +56,7 @@ const techs: Skill[] = [
     { name: 'Bootstrap', icon: 'mdi:bootstrap', color: 'bg-violet-900', span: 'col-span-1' },
 ];
 
-const knowledge = [
-    'Análisis y Levantamiento de Requerimientos: Traduzco necesidades de negocio en especificaciones técnicas claras.',
-    'Arquitectura de Información y UX: Planificación de estructuras de datos y flujos de usuario antes de tocar una sola línea de código.',
-    'Gestión de Proyectos con Kanban: Control de tiempos y entregables para asegurar que el proyecto no se desvíe del presupuesto.',
-    'Consultoría Técnica: Evaluación de viabilidad para proyectos escalables (SaaS, LMS, E-commerce).',
-];
-
-const knowledge2 = [
-    'Desarrollo Web Full-Stack: Implementación robusta con Laravel o WordPress.',
-    'Optimización de Rendimiento (WPO): Sitios rápidos y eficientes para mejorar la conversión.',
-    'Integración de APIs y Automatización: Conexión de sistemas para optimizar procesos operativos.',
-    'Comunicación e Inglés Avanzado: Comunicación en entornos bilingües. Actualmente cursando el nivel superior para maestría total del idioma.',
-];
+const { management: knowledge, development: knowledge2 } = skillsKnowledge[lang];
 ---
 
 <div class="flex flex-col gap-4 lg:flex-row">
@@ -68,7 +65,7 @@ const knowledge2 = [
         class="bg-primary-500 text-surface-500 dark:bg-muted-800 dark:text-surface-400 col-span-2 row-span-2 flex flex-col justify-center gap-4 rounded-2xl p-6 sm:col-span-3 lg:col-span-3"
     >
         <h3 class="text-xl font-bold tracking-wide text-teal-500 uppercase">
-            Gestión y Planificación
+            {t('skills.management')}
         </h3>
         <ul class="flex flex-col gap-3">
             {
@@ -90,7 +87,7 @@ const knowledge2 = [
         class="bg-primary-500 text-surface-500 dark:bg-muted-800 dark:text-surface-400 col-span-2 row-span-2 flex flex-col justify-center gap-4 rounded-2xl p-6 sm:col-span-3 lg:col-span-3"
     >
         <h3 class="text-xl font-bold tracking-wide text-teal-500 uppercase">
-            Desarrollo y Ejecución
+            {t('skills.development')}
         </h3>
         <ul class="flex flex-col gap-3">
             {

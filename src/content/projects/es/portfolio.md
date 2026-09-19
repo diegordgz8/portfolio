@@ -7,7 +7,7 @@ stack:
     - TypeScript
     - Coolify
     - Cloudflare
-cover: ./portfolio.png
+cover: ../portfolio.png
 link: https://diegordgz8.dev
 github: https://github.com/diegordgz8/portfolio
 ---
@@ -21,6 +21,7 @@ Diseñar y desarrollar un portafolio profesional que sea rápido, accesible y f�
 - **Astro 5:** Generación estática con View Transitions para navegación fluida entre páginas sin recargar.
 - **Tailwind CSS 4:** Sistema de diseño personalizado con paleta de colores semántica, dark mode y componentes reutilizables definidos en `@layer components`.
 - **Content Collections:** Experiencia laboral y proyectos gestionados como Markdown con schemas Zod, permitiendo agregar contenido sin tocar código.
+- **Internacionalización:** Disponible en español e inglés con el enrutado i18n nativo de Astro, etiquetas `hreflang` y contenido por idioma.
 - **Bento Grid:** Sección de habilidades con layout bento box que destaca las tecnologías principales del stack.
 - **SEO:** Meta tags, Open Graph y Twitter Cards para compartibilidad óptima.
 

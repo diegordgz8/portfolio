@@ -13,7 +13,7 @@ stack:
     - JavaScript
     - CSS
     - HTML
-cover: ./strive.png
+cover: ../strive.png
 ---
 
 Me desempeñé como desarrollador encargado de la maquetación y programación de sitios web de alto rendimiento para diversos clientes en Estados Unidos. Mi enfoque principal fue la creación de experiencias de usuario fluidas y funcionales, adaptando soluciones técnicas a las necesidades específicas de cada modelo de negocio en entornos de comercio electrónico competitivos.

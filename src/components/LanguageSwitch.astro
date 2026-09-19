@@ -1,0 +1,40 @@
+---
+import { languages, ui, type Lang } from '../i18n/ui';
+import { getLangFromUrl, localizePath, unlocalizePath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const basePath = unlocalizePath(Astro.url.pathname);
+const others = (Object.keys(languages) as Lang[]).filter((l) => l !== lang);
+---
+
+{
+    others.map((target) => (
+        <a
+            href={localizePath(basePath, target)}
+            hreflang={target}
+            lang={target}
+            aria-label={ui[target]['nav.switchLanguage']}
+            data-language-switch={target}
+            class="hover:border-brand dark:hover:border-brand-dark hover:text-brand dark:hover:text-brand-dark rounded-full border-2 border-current px-3 py-1 text-base font-semibold uppercase transition-colors duration-300"
+        >
+            {target}
+        </a>
+    ))
+}
+
+<script>
+    // Bundled scripts run once per session, so a single delegated listener covers
+    // every page reached through View Transitions.
+    document.addEventListener('click', (e) => {
+        const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('[data-language-switch]');
+        if (!link) return;
+
+        const w = window as Window & { dataLayer?: object[] };
+        w.dataLayer = w.dataLayer || [];
+        w.dataLayer.push({
+            event: 'language_switch',
+            language_from: document.documentElement.lang,
+            language_to: link.dataset.languageSwitch,
+        });
+    });
+</script>

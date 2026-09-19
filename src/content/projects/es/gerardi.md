@@ -8,7 +8,7 @@ stack:
     - PHP
     - HTML
     - CSS
-cover: ./gerardi.png
+cover: ../gerardi.png
 link: https://gerardistudio.com/
 ---
 

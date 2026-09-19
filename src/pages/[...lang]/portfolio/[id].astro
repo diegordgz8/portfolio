@@ -1,39 +1,51 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
 import { getImage, Image } from 'astro:assets';
-import Layout from '../../layouts/Layout.astro';
-import Button from '../../components/Button.astro';
-import Lightbox from '../../components/Lightbox.astro';
+import Layout from '../../../layouts/Layout.astro';
+import Button from '../../../components/Button.astro';
+import Lightbox from '../../../components/Lightbox.astro';
 import { Icon } from 'astro-icon/components';
+import { languages, type Lang } from '../../../i18n/ui';
+import {
+    getLocalizedCollection,
+    langParam,
+    localizePath,
+    useTranslations,
+} from '../../../i18n/utils';
 
 export async function getStaticPaths() {
-    const projects = await getCollection('projects');
+    const paths = await Promise.all(
+        (Object.keys(languages) as Lang[]).map(async (lang) =>
+            (await getLocalizedCollection('projects', lang)).map(({ entry, slug }) => ({
+                params: { lang: langParam(lang), id: slug },
+                props: { project: entry, slug, lang },
+            })),
+        ),
+    );
 
-    return projects.map((project) => ({
-        params: { id: project.slug },
-        props: { project },
-    }));
+    return paths.flat();
 }
 
-const { project } = Astro.props;
-const { data, slug } = project;
+const { project, slug, lang } = Astro.props;
+const { data } = project;
+const t = useTranslations(lang);
 const { name, description, cover, stack, link, pictures } = data;
 
 const { Content } = await render(project);
 const ogCover = cover ? (await getImage({ src: cover })).src : undefined;
 ---
 
-<Layout title={` ${name} - Proyectos `} description={description} image={ogCover}>
+<Layout title={`${name} - ${t('project.titleSuffix')}`} description={description} image={ogCover}>
     <div class="container mt-4 flex flex-col justify-between gap-4 sm:flex-row lg:mt-20">
-        <Button class="btn-outline" href="/#portfolio">
+        <Button class="btn-outline" href={localizePath('/#portfolio', lang)}>
             <Icon name="mdi:arrow-left" class="h-6 w-6" />
-            Regresar
+            {t('project.back')}
         </Button>
 
         {
             link && (
                 <Button class="btn-solid" href={`${link}`} target="_blank">
-                    Ver proyecto
+                    {t('project.view')}
                     <Icon name="mdi:link" class="h-6 w-6" />
                 </Button>
             )
@@ -60,7 +72,7 @@ const ogCover = cover ? (await getImage({ src: cover })).src : undefined;
                             <Image
                                 class="aspect-video rounded-lg object-cover object-top"
                                 src={pic}
-                                alt={`${name} - captura ${i + 1}`}
+                                alt={`${name} - ${t('project.screenshot')} ${i + 1}`}
                                 data-lightbox
                             />
                         ))}

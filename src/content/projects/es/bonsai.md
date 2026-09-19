@@ -5,7 +5,7 @@ stack:
     - HTML
     - Tailwind CSS
     - Alpine.js
-cover: ./bonsai.png
+cover: ../bonsai.png
 link: https://diegordgz8.github.io/pricing-page/
 ---
 

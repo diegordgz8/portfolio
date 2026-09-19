@@ -2,6 +2,12 @@
 import MobileMenuToggle from './MobileMenuToggle.astro';
 import NavLink from './NavLink.astro';
 import ThemeSwitch from './ThemeSwitch.astro';
+import LanguageSwitch from './LanguageSwitch.astro';
+import { navItems } from '../i18n/ui';
+import { getLangFromUrl, localizePath, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <header class="sticky top-0 z-50 w-full">
@@ -9,7 +15,7 @@ import ThemeSwitch from './ThemeSwitch.astro';
         id="header-bar"
         class="bg-primary-500/90 text-surface-500 flex items-center justify-end px-4 py-2 shadow-lg backdrop-blur-sm transition-all duration-500 sm:py-4 lg:justify-between lg:py-6"
     >
-        <a href="/#hero" class="mr-auto lg:mr-0" aria-label="Inicio">
+        <a href={localizePath('/#hero', lang)} class="mr-auto lg:mr-0" aria-label={t('nav.home')}>
             <svg
                 id="header-logo"
                 xmlns="http://www.w3.org/2000/svg"
@@ -38,14 +44,15 @@ import ThemeSwitch from './ThemeSwitch.astro';
         <nav
             class="hidden w-full flex-col items-center justify-center gap-8 text-xl font-semibold uppercase lg:flex lg:h-full lg:w-auto lg:flex-row"
         >
-            <NavLink href="/#hero" label="Inicio" />
-            <NavLink href="/#jobs" label="Experiencia" />
-            <NavLink href="/#portfolio" label="Proyectos" />
-            <NavLink href="/#skills" label="Habilidades" />
-            <NavLink href="/#contact" label="Contacto" />
+            {
+                navItems.map((item) => (
+                    <NavLink href={localizePath(`/#${item.id}`, lang)} label={t(item.label)} />
+                ))
+            }
         </nav>
 
-        <div class="hidden lg:block">
+        <div class="hidden items-center gap-4 lg:flex">
+            <LanguageSwitch />
             <ThemeSwitch />
         </div>
 

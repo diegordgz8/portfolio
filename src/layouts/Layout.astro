@@ -5,18 +5,26 @@ import MobileMenu from '../components/MobileMenu.astro';
 import Footer from '../components/Footer.astro';
 import '@fontsource-variable/geist';
 import { ClientRouter } from 'astro:transitions';
+import { defaultLang, languages, type Lang } from '../i18n/ui';
+import { getLangFromUrl, localizePath, unlocalizePath, useTranslations } from '../i18n/utils';
 
-const {
-    title,
-    description = 'Portafolio de Diego Rodríguez, Technical Lead especializado en PHP, Laravel y WordPress.',
-    image,
-} = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const { title, description = t('meta.defaultDescription'), image } = Astro.props;
 
 const ogImage = new URL(image || '/og-image.webp', Astro.site).href;
+
+const basePath = unlocalizePath(Astro.url.pathname);
+const alternates = (Object.keys(languages) as Lang[]).map((altLang) => ({
+    lang: altLang,
+    href: new URL(localizePath(basePath, altLang), Astro.site).href,
+}));
+const canonical = new URL(localizePath(basePath, lang), Astro.site).href;
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
@@ -24,10 +32,18 @@ const ogImage = new URL(image || '/og-image.webp', Astro.site).href;
         <!-- <meta name="generator" content={Astro.generator} /> -->
         <title>{title}</title>
         <meta name="description" content={description} />
+        <link rel="canonical" href={canonical} />
+        {alternates.map((alt) => <link rel="alternate" hreflang={alt.lang} href={alt.href} />)}
+        <link
+            rel="alternate"
+            hreflang="x-default"
+            href={new URL(localizePath(basePath, defaultLang), Astro.site).href}
+        />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={ogImage} />
         <meta property="og:type" content="website" />
+        <meta property="og:locale" content={t('meta.ogLocale')} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
@@ -63,7 +79,11 @@ const ogImage = new URL(image || '/og-image.webp', Astro.site).href;
 
             /* Fires on first load and on every View Transitions navigation.
                In GTM this feeds the "pageview" Custom Event trigger, and the
-               Google tag has send_page_view disabled so nothing is counted twice. */
+               Google tag has send_page_view disabled so nothing is counted twice.
+               Keep this script identical across languages: if its text differed per
+               page, View Transitions would re-run it on a language switch and every
+               later navigation would be reported twice. That's why the language is
+               read from <html lang> at runtime instead of being templated in. */
             let lastTrackedPath = null;
             document.addEventListener('astro:page-load', () => {
                 // The nav uses same-page hash links (/#jobs, /#contact...), which can
@@ -79,6 +99,7 @@ const ogImage = new URL(image || '/og-image.webp', Astro.site).href;
                     page_location: location.href,
                     page_path: path,
                     page_title: document.title,
+                    page_language: document.documentElement.lang,
                 });
             });
         </script>

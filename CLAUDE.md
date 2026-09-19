@@ -11,23 +11,31 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Architecture
 
-Personal portfolio website built with **Astro 5** and **Tailwind CSS 4**. All content and UI text is in **Spanish**.
+Personal portfolio website built with **Astro 5** and **Tailwind CSS 4**. Bilingual: **Spanish** (default, unprefixed URLs) and **English** (under `/en/`).
 
 ### Content Collections
 
 Content uses Astro's content layer with Zod schemas defined in `src/content/config.ts`:
+
+Each collection has one folder per language (`jobs/es/`, `jobs/en/`, ...); entries share the same filename across languages and images stay at the collection root. Use `getLocalizedCollection()` from `src/i18n/utils.ts` instead of `getCollection()` directly — it filters by language and strips the language folder from the slug.
 
 - **Jobs** (`src/content/jobs/`) — Work experience entries (name, position, dateFrom/dateTo as strings, description, stack, cover image)
 - **Projects** (`src/content/projects/`) — Portfolio projects (name, description, stack, cover, pictures, link, github)
 
 Content files are Markdown with YAML frontmatter. The Markdown body is rendered on project detail pages using `render()` from `astro:content` and displayed inside a `prose` container (`@tailwindcss/typography`).
 
-Collections are queried via `getCollection()` from `astro:content`.
+### i18n
+
+- Astro native i18n in `astro.config.mjs` (`defaultLocale: 'es'`, `prefixDefaultLocale: false`)
+- UI strings live in `src/i18n/ui.ts`; use `useTranslations(lang)` and `localizePath(path, lang)` from `src/i18n/utils.ts`. Components without a `lang` prop derive it with `getLangFromUrl(Astro.url)`
+- `Layout.astro` sets `<html lang>`, canonical, `hreflang` alternates and `og:locale`
+- The inline GTM `pageview` script in `Layout.astro` must stay byte-identical across languages (it reads the language from `<html lang>` at runtime); otherwise View Transitions re-run it and pageviews get duplicated
 
 ### Routing
 
-- `src/pages/index.astro` — Homepage with hero, jobs, projects, and contact sections
-- `src/pages/portfolio/[id].astro` — Dynamic project detail pages generated via `getStaticPaths()` using project slugs
+- `src/pages/[...lang]/index.astro` — Homepage with hero, jobs, projects, and contact sections
+- `src/pages/[...lang]/portfolio/[id].astro` — Dynamic project detail pages generated via `getStaticPaths()` using project slugs
+- `[...lang]` is `undefined` for Spanish (renders at `/`) and `en` for English (renders at `/en/`)
 
 ### Layout & Components
 

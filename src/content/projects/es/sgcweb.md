@@ -6,10 +6,10 @@ stack:
     - Livewire
     - Tailwind CSS
     - Alpine.js
-cover: ./sgcweb.png
+cover: ../sgcweb.png
 pictures:
-    - ./sgcweb/panel-condominio.png
-    - ./sgcweb/about.png
+    - ../sgcweb/panel-condominio.png
+    - ../sgcweb/about.png
 github: https://www.github.com/diegordgz8/sgcweb
 ---
 

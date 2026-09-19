@@ -2,6 +2,12 @@
 import { Icon } from 'astro-icon/components';
 import NavLink from './NavLink.astro';
 import ThemeSwitch from './ThemeSwitch.astro';
+import LanguageSwitch from './LanguageSwitch.astro';
+import { navItems } from '../i18n/ui';
+import { getLangFromUrl, localizePath, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <div
@@ -11,18 +17,18 @@ import ThemeSwitch from './ThemeSwitch.astro';
     <button
         id="mobile-menu-close"
         type="button"
-        aria-label="Cerrar menú"
+        aria-label={t('nav.closeMenu')}
         class="absolute top-6 right-6 cursor-pointer"
     >
         <Icon name="mdi:close" class="h-8 w-8" />
     </button>
 
     <nav class="flex flex-col items-end gap-8 text-right">
-        <NavLink href="/#hero" label="Inicio" />
-        <NavLink href="/#jobs" label="Experiencia" />
-        <NavLink href="/#portfolio" label="Proyectos" />
-        <NavLink href="/#skills" label="Habilidades" />
-        <NavLink href="/#contact" label="Contacto" />
+        {
+            navItems.map((item) => (
+                <NavLink href={localizePath(`/#${item.id}`, lang)} label={t(item.label)} />
+            ))
+        }
     </nav>
 
     <div class="flex flex-col items-end gap-4">
@@ -37,7 +43,10 @@ import ThemeSwitch from './ThemeSwitch.astro';
                 <Icon name="mdi:linkedin" class="h-8 w-8" />
             </a>
         </div>
-        <ThemeSwitch />
+        <div class="flex items-center gap-4">
+            <LanguageSwitch />
+            <ThemeSwitch />
+        </div>
     </div>
 </div>
 

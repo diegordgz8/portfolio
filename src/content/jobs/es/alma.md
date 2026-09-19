@@ -13,7 +13,7 @@ stack:
     - CSS
     - HTML
     - Figma
-cover: ./almav.png
+cover: ../almav.png
 ---
 
 Responsable de la transformación de diseños complejos de Figma en interfaces web funcionales y responsivas. Mi enfoque se centró en la precisión visual y la implementación de lógica dinámica en el frontend para mejorar la experiencia del usuario final en diversas plataformas de la empresa.

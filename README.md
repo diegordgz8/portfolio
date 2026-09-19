@@ -1,7 +1,7 @@
 # Portfolio — [diegordgz8.dev](https://diegordgz8.dev)
 
 Personal portfolio and website of Diego A. Rodríguez, built as a static site with
-Astro 5 and Tailwind CSS 4. Site content and UI are in Spanish.
+Astro 5 and Tailwind CSS 4. Available in Spanish (default) and English (`/en/`).
 
 ## Stack
 
@@ -39,10 +39,11 @@ src/
 ├── components/      UI components (.astro only — no UI framework)
 ├── content/
 │   ├── config.ts    Zod schemas for the content collections
-│   ├── jobs/        Work experience entries
-│   └── projects/    Portfolio projects
+│   ├── jobs/        Work experience entries, one folder per language (es/, en/)
+│   └── projects/    Portfolio projects, one folder per language (es/, en/)
+├── i18n/            UI strings (ui.ts) and locale helpers (utils.ts)
 ├── layouts/         Layout.astro — wraps every page
-├── pages/           index.astro and portfolio/[id].astro
+├── pages/[...lang]/ index.astro and portfolio/[id].astro, rendered once per language
 └── styles/          global.css — theme tokens and component classes
 ```
 
@@ -53,8 +54,9 @@ frontmatter, validated by the Zod schemas in `src/content/config.ts`. Project
 detail pages are generated from the collection slugs, and the Markdown body is
 rendered inside a `prose` container.
 
-To add a project, drop a new `.md` file into `src/content/projects/` along with
-its cover image — no code changes needed.
+To add a project, drop its cover image into `src/content/projects/` and a `.md`
+file with the same name into both `es/` and `en/` (images are referenced as
+`../image.png`) — no code changes needed. UI strings live in `src/i18n/ui.ts`.
 
 ## Deployment
 
@@ -68,4 +70,4 @@ the site on every push to `main` and publishes `dist/` to GitHub Pages.
 
 - Line endings are normalized to LF via `.gitattributes`
 - Formatting is handled by Prettier with the Astro and Tailwind plugins
-- Code comments in English; all user-facing copy in Spanish
+- Code comments in English; user-facing copy in Spanish and English
