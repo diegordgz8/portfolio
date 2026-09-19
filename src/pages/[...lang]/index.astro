@@ -10,6 +10,7 @@ import contactCover from '../../assets/img/developing.jpg';
 import JobCard from '../../components/JobCard.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import SkillsBento from '../../components/SkillsBento.astro';
+import Certifications from '../../components/Certifications.astro';
 import { languages, type Lang } from '../../i18n/ui';
 import { getLocalizedCollection, langParam, useTranslations } from '../../i18n/utils';
 
@@ -129,6 +130,13 @@ const projects = (await getLocalizedCollection('projects', lang)).sort(
         <div class="container py-12 sm:px-4 md:px-8 lg:py-16 xl:px-12">
             <h2 class="section-title">{t('section.skills')}</h2>
             <SkillsBento lang={lang} />
+        </div>
+    </section>
+
+    <section id="certifications">
+        <div class="container py-12 sm:px-4 md:px-8 lg:py-16 xl:px-12">
+            <h2 class="section-title">{t('section.certifications')}</h2>
+            <Certifications lang={lang} />
         </div>
     </section>
 

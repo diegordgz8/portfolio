@@ -1,0 +1,103 @@
+---
+import Button from './Button.astro';
+import { Icon } from 'astro-icon/components';
+import type { Lang } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const VERIFY_URL = 'https://englishscore.com/verify';
+const VERIFY_CODE = 'd07acaef2125';
+const SCORE = 537;
+const MAX_SCORE = 600;
+
+const scores = [
+    { label: t('cert.grammar'), value: 510 },
+    { label: t('cert.vocabulary'), value: 541 },
+    { label: t('cert.reading'), value: 548 },
+    { label: t('cert.listening'), value: 548 },
+];
+---
+
+<div
+    class="bg-primary-500 text-surface-500 dark:bg-muted-800 dark:text-surface-400 flex flex-col items-center gap-8 rounded-2xl p-6 md:p-8 lg:flex-row lg:gap-10"
+>
+    <div class="flex shrink-0 flex-col items-center gap-2">
+        <svg viewBox="0 0 116 124" class="h-28 w-26" role="img">
+            <title>{`${SCORE} / ${MAX_SCORE}`}</title>
+            <path d="M58 4 108 20v48c0 30-22 45-50 52C30 113 8 98 8 68V20z" fill="#0f9b8e"></path>
+            <text
+                x="58"
+                y="76"
+                text-anchor="middle"
+                font-size="42"
+                font-weight="700"
+                fill="#ffffff"
+                font-family="inherit">{SCORE}</text
+            >
+        </svg>
+        <span class="text-sm opacity-70">{t('cert.scoreOf')}</span>
+    </div>
+
+    <div class="flex flex-1 flex-col items-center gap-3 lg:items-start">
+        <div class="flex flex-col items-center gap-3 sm:flex-row">
+            <h3 class="text-2xl font-bold">EnglishScore Core Skills</h3>
+            <span class="rounded-full bg-teal-500 px-4 py-1 text-sm font-bold text-teal-900">
+                CEFR C1 · Advanced
+            </span>
+        </div>
+
+        <p class="text-center opacity-70 lg:text-left">{t('cert.issuer')}</p>
+
+        <dl class="mt-2 grid w-full grid-cols-2 gap-4 sm:grid-cols-4">
+            {
+                scores.map((score) => (
+                    <div class="flex flex-col gap-1">
+                        <dt class="text-xs opacity-70">{score.label}</dt>
+                        <dd class="m-0 text-lg font-bold text-teal-400">{score.value}</dd>
+                    </div>
+                ))
+            }
+        </dl>
+    </div>
+
+    <div class="flex w-full shrink-0 flex-col items-center gap-3 lg:w-auto">
+        <Button
+            class="btn-solid w-full px-4! text-base! whitespace-nowrap"
+            href={VERIFY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-certificate-verify
+        >
+            {t('cert.verify')}
+            <Icon name="mdi:open-in-new" class="h-5 w-5" />
+        </Button>
+        <p class="text-center text-xs opacity-70">
+            {t('cert.codeLabel')}
+            <span class="text-surface-500 dark:text-surface-300 block text-sm font-bold">
+                {VERIFY_CODE}
+            </span>
+        </p>
+    </div>
+</div>
+
+<script>
+    // Bundled scripts run once per session, so one delegated listener covers
+    // every page reached through View Transitions.
+    document.addEventListener('click', (e) => {
+        const link = (e.target as HTMLElement).closest('[data-certificate-verify]');
+        if (!link) return;
+
+        const w = window as Window & { dataLayer?: object[] };
+        w.dataLayer = w.dataLayer || [];
+        w.dataLayer.push({
+            event: 'certificate_verify',
+            page_language: document.documentElement.lang,
+        });
+    });
+</script>

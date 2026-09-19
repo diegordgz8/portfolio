@@ -45,7 +45,17 @@ export const ui = {
         'section.jobs': 'Experiencia laboral',
         'section.portfolio': 'Proyectos',
         'section.skills': 'Habilidades',
+        'section.certifications': 'Certificaciones',
         'section.contact': 'Contacto',
+
+        'cert.issuer': 'British Council · Válido desde agosto de 2026',
+        'cert.scoreOf': 'de 600 puntos',
+        'cert.grammar': 'Gramática',
+        'cert.vocabulary': 'Vocabulario',
+        'cert.reading': 'Lectura',
+        'cert.listening': 'Comprensión oral',
+        'cert.verify': 'Verificar certificado',
+        'cert.codeLabel': 'Código de verificación',
 
         'contact.pitch':
             '¿Tienes un proyecto en mente? Escríbeme y hablemos sobre cómo puedo ayudarte.',
@@ -93,7 +103,17 @@ export const ui = {
         'section.jobs': 'Work experience',
         'section.portfolio': 'Projects',
         'section.skills': 'Skills',
+        'section.certifications': 'Certifications',
         'section.contact': 'Contact',
+
+        'cert.issuer': 'British Council · Valid from August 2026',
+        'cert.scoreOf': 'out of 600 points',
+        'cert.grammar': 'Grammar',
+        'cert.vocabulary': 'Vocabulary',
+        'cert.reading': 'Reading',
+        'cert.listening': 'Listening',
+        'cert.verify': 'Verify certificate',
+        'cert.codeLabel': 'Verification code',
 
         'contact.pitch':
             "Have a project in mind? Get in touch and let's talk about how I can help.",
@@ -126,7 +146,7 @@ export const skillsKnowledge = {
             'Desarrollo Web Full-Stack: Implementación robusta con Laravel o WordPress.',
             'Optimización de Rendimiento (WPO): Sitios rápidos y eficientes para mejorar la conversión.',
             'Integración de APIs y Automatización: Conexión de sistemas para optimizar procesos operativos.',
-            'Comunicación e Inglés Avanzado: Comunicación en entornos bilingües. Actualmente cursando el nivel superior para maestría total del idioma.',
+            'Comunicación en Entornos Bilingües: Trabajo a diario con clientes y equipos de habla inglesa.',
         ],
     },
     en: {
@@ -140,7 +160,7 @@ export const skillsKnowledge = {
             'Full-Stack Web Development: Robust implementations with Laravel or WordPress.',
             'Web Performance Optimization (WPO): Fast, efficient sites that improve conversion.',
             'API Integration & Automation: Connecting systems to streamline business operations.',
-            'Communication & Advanced English: Comfortable working in bilingual environments. Currently taking the highest-level course to fully master the language.',
+            'Bilingual Communication: I work daily with English-speaking clients and teams.',
         ],
     },
 } as const;
