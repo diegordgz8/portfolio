@@ -51,12 +51,15 @@ const t = useTranslations(lang);
             }
         </nav>
 
-        <div class="hidden items-center gap-4 lg:flex">
+        <div class="flex items-center gap-4">
             <LanguageSwitch />
-            <ThemeSwitch />
-        </div>
 
-        <MobileMenuToggle />
+            <div class="hidden lg:block">
+                <ThemeSwitch />
+            </div>
+
+            <MobileMenuToggle />
+        </div>
     </div>
 </header>
 
