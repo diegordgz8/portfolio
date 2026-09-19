@@ -64,12 +64,20 @@ const ogImage = new URL(image || '/og-image.webp', Astro.site).href;
             /* Fires on first load and on every View Transitions navigation.
                In GTM this feeds the "pageview" Custom Event trigger, and the
                Google tag has send_page_view disabled so nothing is counted twice. */
+            let lastTrackedPath = null;
             document.addEventListener('astro:page-load', () => {
+                // The nav uses same-page hash links (/#jobs, /#contact...), which can
+                // resolve into more than one page-load per navigation. Only report when
+                // the actual path changes.
+                const path = location.pathname + location.search;
+                if (path === lastTrackedPath) return;
+                lastTrackedPath = path;
+
                 window.dataLayer = window.dataLayer || [];
                 window.dataLayer.push({
                     event: 'pageview',
                     page_location: location.href,
-                    page_path: location.pathname + location.search,
+                    page_path: path,
                     page_title: document.title,
                 });
             });
