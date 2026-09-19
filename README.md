@@ -1,48 +1,71 @@
-# Astro Starter Kit: Basics
+# Portfolio — [diegordgz8.dev](https://diegordgz8.dev)
+
+Personal portfolio and website of Diego A. Rodríguez, built as a static site with
+Astro 5 and Tailwind CSS 4. Site content and UI are in Spanish.
+
+## Stack
+
+- **[Astro 5](https://astro.build)** — static site generation, content collections, view transitions
+- **[Tailwind CSS 4](https://tailwindcss.com)** — configured entirely in `src/styles/global.css` via `@theme`
+- **TypeScript** — strict mode
+- **astro-icon** with the Lucide and MDI icon sets
+- Deployed with **Coolify** on a self-hosted VPS, behind Cloudflare
+
+## Getting started
+
+Requires Node 22+ and [pnpm](https://pnpm.io).
 
 ```sh
-npm create astro@latest -- --template basics
+pnpm install
+pnpm dev
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+The dev server runs at `http://localhost:4321`.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Scripts
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+| Command | Description |
+| --- | --- |
+| `pnpm dev` | Start the dev server |
+| `pnpm build` | Build the production site to `./dist/` |
+| `pnpm preview` | Preview the production build locally |
+| `pnpm format` | Format `src/` with Prettier |
 
-## 🚀 Project Structure
+## Project structure
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+```
+src/
+├── assets/img/      Images processed by Astro's <Image> component
+├── components/      UI components (.astro only — no UI framework)
+├── content/
+│   ├── config.ts    Zod schemas for the content collections
+│   ├── jobs/        Work experience entries
+│   └── projects/    Portfolio projects
+├── layouts/         Layout.astro — wraps every page
+├── pages/           index.astro and portfolio/[id].astro
+└── styles/          global.css — theme tokens and component classes
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+### Content
 
-## 🧞 Commands
+Work experience and projects live in `src/content/` as Markdown with YAML
+frontmatter, validated by the Zod schemas in `src/content/config.ts`. Project
+detail pages are generated from the collection slugs, and the Markdown body is
+rendered inside a `prose` container.
 
-All commands are run from the root of the project, from a terminal:
+To add a project, drop a new `.md` file into `src/content/projects/` along with
+its cover image — no code changes needed.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Deployment
 
-## 👀 Want to learn more?
+The live site at [diegordgz8.dev](https://diegordgz8.dev) is served from a
+self-hosted Coolify instance behind Cloudflare.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+A GitHub Actions workflow (`.github/workflows/deploy.yml`) additionally builds
+the site on every push to `main` and publishes `dist/` to GitHub Pages.
+
+## Conventions
+
+- Line endings are normalized to LF via `.gitattributes`
+- Formatting is handled by Prettier with the Astro and Tailwind plugins
+- Code comments in English; all user-facing copy in Spanish
