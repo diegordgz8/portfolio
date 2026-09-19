@@ -7,8 +7,8 @@ stack:
     - TypeScript
     - GitHub Pages
 cover: ./portfolio.png
-link: https://diegordgz8.github.io
-github: https://github.com/diegordgz8/diegordgz8.github.io
+link: https://diegordgz8.dev
+github: https://github.com/diegordgz8/portfolio
 ---
 
 ### El Reto
