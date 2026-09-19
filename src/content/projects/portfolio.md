@@ -5,7 +5,8 @@ stack:
     - Astro
     - Tailwind CSS
     - TypeScript
-    - GitHub Pages
+    - Coolify
+    - Cloudflare
 cover: ./portfolio.png
 link: https://diegordgz8.dev
 github: https://github.com/diegordgz8/portfolio
@@ -25,6 +26,6 @@ Diseñar y desarrollar un portafolio profesional que sea rápido, accesible y f�
 
 ### Resultado
 
-- Sitio 100% estático con deploy automático en GitHub Pages via GitHub Actions.
+- Sitio 100% estático auto-hospedado en un VPS propio, gestionado con Coolify y servido detrás de Cloudflare.
 - Lighthouse score optimizado gracias a la generación estática y optimización de imágenes con Sharp.
 - Tema claro/oscuro persistente entre navegaciones gracias a `astro:before-swap`.
