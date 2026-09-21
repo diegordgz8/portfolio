@@ -60,3 +60,10 @@ Content files are Markdown with YAML frontmatter. The Markdown body is rendered 
 - TypeScript with strict mode (`astro/tsconfigs/strict`)
 - Tailwind via Vite plugin (`@tailwindcss/vite`) in `astro.config.mjs`
 - Package manager: pnpm (lockfile is `pnpm-lock.yaml`)
+
+## Deployment
+
+- `diegordgz8.dev` is served by a self-hosted Coolify instance (panel at `cp.diegordgz8.dev`) behind Cloudflare. The repo has no CI: the GitHub Pages mirror and its workflow were removed in `05cfa12`
+- Pushing to `main` deploys on its own through the `git-hub-diegordgz8` GitHub App, which delivers the push event to `https://cp.diegordgz8.dev/webhooks/source/github/events`. A deploy takes about two minutes
+- Confirm a deploy actually landed: `curl -sI https://diegordgz8.dev/` and read `last-modified`, or grep the served HTML for a string the change introduced
+- If production stops updating, check the App's delivery log first (GitHub → Settings → Developer settings → GitHub Apps → Advanced → Recent Deliveries). Coolify writes that webhook URL when the App is created and never updates it, so moving the panel to another domain silently breaks auto-deploy — which is exactly what happened in September 2026
