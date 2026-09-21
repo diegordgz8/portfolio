@@ -61,10 +61,9 @@ file with the same name into both `es/` and `en/` (images are referenced as
 ## Deployment
 
 The live site at [diegordgz8.dev](https://diegordgz8.dev) is served from a
-self-hosted Coolify instance behind Cloudflare.
-
-A GitHub Actions workflow (`.github/workflows/deploy.yml`) additionally builds
-the site on every push to `main` and publishes `dist/` to GitHub Pages.
+self-hosted Coolify instance behind Cloudflare, which builds and publishes the
+site on its own. Pushing to `main` is therefore not enough: production only
+updates once Coolify redeploys.
 
 ## Conventions
 
