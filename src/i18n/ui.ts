@@ -56,6 +56,8 @@ export const ui = {
         'cert.listening': 'Comprensión oral',
         'cert.verify': 'Verificar certificado',
         'cert.codeLabel': 'Código de verificación',
+        'cert.copyCode': 'Copiar código',
+        'cert.codeCopied': 'Código copiado',
 
         'contact.pitch':
             '¿Tienes un proyecto en mente? Escríbeme y hablemos sobre cómo puedo ayudarte.',
@@ -114,6 +116,8 @@ export const ui = {
         'cert.listening': 'Listening',
         'cert.verify': 'Verify certificate',
         'cert.codeLabel': 'Verification code',
+        'cert.copyCode': 'Copy code',
+        'cert.codeCopied': 'Code copied',
 
         'contact.pitch':
             "Have a project in mind? Get in touch and let's talk about how I can help.",
