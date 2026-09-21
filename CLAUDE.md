@@ -30,6 +30,7 @@ Content files are Markdown with YAML frontmatter. The Markdown body is rendered 
 - UI strings live in `src/i18n/ui.ts`; use `useTranslations(lang)` and `localizePath(path, lang)` from `src/i18n/utils.ts`. Components without a `lang` prop derive it with `getLangFromUrl(Astro.url)`
 - `Layout.astro` sets `<html lang>`, canonical, `hreflang` alternates and `og:locale`
 - The inline GTM `pageview` script in `Layout.astro` must stay byte-identical across languages (it reads the language from `<html lang>` at runtime); otherwise View Transitions re-run it and pageviews get duplicated
+- The GTM container only loads in production builds (`import.meta.env.PROD` gate in `Layout.astro`), so `astro dev` never reaches GA4 or Clarity; see `docs/analytics.md`
 
 ### Routing
 

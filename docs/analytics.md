@@ -28,6 +28,20 @@ listener per element. Astro's bundled scripts run once per session, so one liste
 covers every page reached through View Transitions; per-element listeners would be
 lost after the first DOM swap.
 
+## Environments
+
+The GTM loader lives in `src/components/GoogleTagManager.astro` (plus its `<noscript>`
+counterpart) and `Layout.astro` renders both only when `import.meta.env.PROD` is true.
+`astro dev` therefore emits no container at all and local browsing never reaches GA4 or
+Clarity.
+
+`astro preview` serves the production build, so it _does_ load the real container: use
+it — not `astro dev` — to debug tagging with GTM preview mode, and keep in mind that
+those sessions are recorded like any other.
+
+The `dataLayer` pushes themselves are not guarded. In development they simply pile up
+in an array nobody reads, which is handy for inspecting payloads from the console.
+
 ## Naming convention
 
 | Entity               | Format          | Example                    |
@@ -84,7 +98,8 @@ registration.
    matching the `dataLayer` one and parameters mapped to their `DLV - …` variables.
 3. **Variables**: create `DLV - <key>` only for genuinely new parameters.
 4. **In GA4**: register any new parameter as an event-scoped custom dimension.
-5. **Verify** in GTM preview mode, on both `/` and `/en/`, then publish.
+5. **Verify** in GTM preview mode against `pnpm build && pnpm preview` (the dev
+   server does not load the container), on both `/` and `/en/`, then publish.
 6. **Update the inventory in this document.**
 
 Renaming triggers and tags in GTM is safe: those names are container-internal labels.
